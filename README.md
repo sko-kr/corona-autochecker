@@ -6,3 +6,13 @@
 실요성 없는것 그저 형식만 차릴려고 아침 일찍 일어나야 하느니 걍 자동화를 할란다. 
 
 (이거 쓰실분은 책임감 있게 8시전이 아닌 등교전에 체크해주세요 :bow:)
+
+
+## Setup
+* OS time이 한국 시간이어야합니다.
+* .env setup example
+```dotenv
+SCHOOL_NAME=강남초등학교
+PUPIL_NAME=홍길동
+PUPIL_DOB=090530
+```
