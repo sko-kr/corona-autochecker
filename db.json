@@ -1,5 +1,23 @@
 {
-  "checkedDate": {
-    "2020-05-29": true
-  }
+  "users": [
+    {
+      "id": 1,
+      "name": "홍길동",
+      "schoolName": "강남초등학교",
+      "dob": "111111",
+      "checkedDate": {
+        "2020-05-29": false
+      }
+    },
+    {
+      "id": 2,
+      "name": "홍길순",
+      "schoolName": "역삼초등학교",
+      "dob": "101010",
+      "checkedDate": {
+        "2020-05-29": false
+      }
+
+    }
+  ]
 }

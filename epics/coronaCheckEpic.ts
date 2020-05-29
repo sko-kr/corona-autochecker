@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { Observable, pipe, UnaryFunction } from 'rxjs';
 import { launchPage } from '../puppeteer/launch';
 import {
   clickPupilInputComplete,
@@ -12,18 +12,29 @@ import {
   selectNoSymptom,
   selectUnder37p5
 } from '../puppeteer/steps';
+import { User } from '../models/Database';
+import { map } from 'rxjs/operators';
+import { Browser, Page } from 'puppeteer';
 
-export const coronaCheckEpic = () => of(`아침에 일어나서 8시 전까지 형식적으로 아프지 않다고 교육부에 말해주는거 자동화 하기`).pipe(
-  launchPage({ url: 'https://eduro.sen.go.kr/stv_cvd_co00_002.do', devMode: process.env.NODE_ENV === 'development' }),
-  inputSchoolName(process.env.SCHOOL_NAME),
-  inputPupilName(process.env.PUPIL_NAME),
-  inputPupilDob(process.env.PUPIL_DOB),
-  clickPupilInputComplete(),
-  /** Next page */
-  selectUnder37p5(),
-  selectNoSymptom(),
-  selectNoSelfTraveled(),
-  selectNoRelativeHasTraveled(),
-  selectNoRelativeHasCorona(),
-  clickSurveyComplete(),
-);
+export function coronaCheckEpic(user: User): UnaryFunction<Observable<any>, Observable<{ browser: Browser, page: Page, user: User }>>;
+export function coronaCheckEpic(user: User) {
+  return pipe(
+    launchPage({ url: 'https://eduro.sen.go.kr/stv_cvd_co00_002.do', devMode: process.env.NODE_ENV === 'development' }),
+    inputSchoolName(user.schoolName),
+    inputPupilName(user.name),
+    inputPupilDob(user.dob),
+    clickPupilInputComplete(),
+    /** Next page */
+    selectUnder37p5(),
+    selectNoSymptom(),
+    selectNoSelfTraveled(),
+    selectNoRelativeHasTraveled(),
+    selectNoRelativeHasCorona(),
+    clickSurveyComplete(),
+    map(({ browser, page }: { browser: Browser; page: Page }): { browser: Browser, page: Page, user: User } => ({
+      browser,
+      page,
+      user
+    }))
+  );
+}
