@@ -1,7 +1,7 @@
 import { pipe } from 'rxjs';
 import { click, clickComplete, input } from './operators';
 import { delay } from 'rxjs/operators';
-import { randomHumanDelay } from './utils';
+import { randomHumanDelay } from '../utils/utils';
 
 export const inputSchoolName = (schoolName?: string) => pipe(
   input('#schulNm', schoolName),

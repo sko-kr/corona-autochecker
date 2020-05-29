@@ -1,6 +1,6 @@
 import { switchMap } from 'rxjs/operators';
 import { CommonBrowser } from '../models/CommonBrowser';
-import { randomHumanDelay } from './utils';
+import { randomHumanDelay } from '../utils/utils';
 
 export function input(selector: string, text = '', options = {
   maxTypingDelay: 60,
