@@ -16,3 +16,8 @@ SCHOOL_NAME=강남초등학교
 PUPIL_NAME=홍길동
 PUPIL_DOB=090530
 ```
+
+
+## TODO:
+1. Docker
+2. Make Public Web Interface
