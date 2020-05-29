@@ -9,6 +9,7 @@
 
 
 ## Setup
+* Node.js 14과 PM2를 설치해야합니다.
 * OS time이 한국 시간이어야합니다.
 * .env setup example
 ```dotenv
@@ -16,7 +17,6 @@ SCHOOL_NAME=강남초등학교
 PUPIL_NAME=홍길동
 PUPIL_DOB=090530
 ```
-
 
 ## TODO:
 1. Docker
