@@ -19,5 +19,6 @@ PUPIL_DOB=090530
 ```
 
 ## TODO:
-1. Docker
-2. Make Public Web Interface
+1. Send Screen shot of a successful check.
+2. Docker
+3. Make Public Web Interface
