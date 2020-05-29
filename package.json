@@ -1,0 +1,24 @@
+{
+  "name": "corona-autochecker",
+  "version": "1.0.0",
+  "description": "Automate annoying tasks set by govts for govts",
+  "main": "index.js",
+  "engines": {
+    "node": "14"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Seunghoon Ko",
+  "license": "ISC",
+  "dependencies": {
+    "@marblejs/core": "^3.1.2",
+    "@types/puppeteer": "^3.0.0",
+    "dotenv": "^8.2.0",
+    "fp-ts": "^2.6.2",
+    "puppeteer": "^3.1.0",
+    "rxjs": "^6.5.5",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.3"
+  }
+}
