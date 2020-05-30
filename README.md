@@ -10,8 +10,8 @@
 (쓰실 분은 책임감 있게 8시 전이 아닌 등교 전에 체크해주세요 :bow:)
 
 ## Setup
-* Node.js 14과 PM2를 설치해야합니다.
-* OS time이 한국 시간이어야합니다.
+* Node.js 12와 PM2를 설치해야합니다.
+* OS time이 한국 시간이어야합니다. `sudo timedatectl set-timezone 'Asia/Seoul'`
 * 다니는 학교, 학생이름, 학생생년월일을 db.json에 설정해야 합니다. 예)
 ```json
 {
