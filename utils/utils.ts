@@ -1,4 +1,4 @@
-import { format, getHours, getMinutes } from "date-fns";
+import { format, getDay, getHours, getMinutes } from "date-fns";
 import { LowDb, User } from '../models/Database';
 
 export function randomHumanDelay({ maxMs, minMs }: { maxMs: number; minMs: number } = { minMs: 600, maxMs: 2000 }) {
@@ -9,7 +9,8 @@ export function isValidCheckTime() {
   const date = new Date();
   const hours = getHours(date);
   const minutes = getMinutes(date);
-  return !(hours >= 8 || hours < 7 || (hours === 7 && minutes < 20));
+  const day = getDay(date);
+  return !(day === 0 || day === 6 || hours >= 8 || hours < 7 || (hours === 7 && minutes < 20));
 }
 
 export function isNotAlreadyChecked(user: User) {
@@ -26,7 +27,7 @@ export function updateCheckedDate(db: LowDb, user: User) {
   checkedDate[dateStr] = true;
   db.get('users')
     .find({ id: user.id })
-    .assign({ checkedDate: user.checkedDate})
+    .assign({ checkedDate: user.checkedDate })
     .write()
 }
 
