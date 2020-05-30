@@ -51,6 +51,5 @@ export const selectNoRelativeHasCorona = () => pipe(
 
 export const clickSurveyComplete = () => pipe(
   delay(randomHumanDelay({ minMs: 500, maxMs: 1000 })),
-  clickComplete('#btnConfirm'),
-  delay(randomHumanDelay({ minMs: 3000, maxMs: 6000 }))
+  clickComplete('#btnConfirm')
 );

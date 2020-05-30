@@ -13,8 +13,9 @@ import {
   selectUnder37p5
 } from '../puppeteer/steps';
 import { User } from '../models/Database';
-import { map } from 'rxjs/operators';
+import { delay, map, tap } from 'rxjs/operators';
 import { Browser, Page } from 'puppeteer';
+import { randomHumanDelay } from '../utils/utils';
 
 export function coronaCheckEpic(user: User): UnaryFunction<Observable<any>, Observable<{ browser: Browser, page: Page, user: User }>>;
 export function coronaCheckEpic(user: User) {
@@ -31,6 +32,10 @@ export function coronaCheckEpic(user: User) {
     selectNoRelativeHasTraveled(),
     selectNoRelativeHasCorona(),
     clickSurveyComplete(),
+    tap(({page}) => {
+      page.screenshot({path: `${user.name}${new Date().getTime()}`})
+    }),
+    delay(randomHumanDelay({ minMs: 3000, maxMs: 6000 })),
     map(({ browser, page }: { browser: Browser; page: Page }): { browser: Browser, page: Page, user: User } => ({
       browser,
       page,
