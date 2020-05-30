@@ -42,6 +42,13 @@
 ## 실행하기
 위 셋업후 `npm start`
 
+## Misc
+* setup korean in ubuntu 
+```bash
+sudo apt-get install language-pack-ko
+sudo apt-get install korean*
+```
+
 ## TODO:
 1. Send Screenshot of a successful check.
 2. Docker
