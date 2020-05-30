@@ -4,7 +4,7 @@
   "description": "Automate annoying tasks set by govts for govts",
   "main": "index.js",
   "engines": {
-    "node": "14"
+    "node": "12"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
