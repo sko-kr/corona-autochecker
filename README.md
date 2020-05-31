@@ -50,7 +50,7 @@ sudo apt-get install korean*
 ```
 
 ## TIL
-#### 1. A value returned from `pipe` standalone function can only be used as other `pipe`s' arguments.
+### 1. A value returned from `pipe` standalone function can only be used as other `pipe`s' arguments.
 The return value of a `pipe` is not an `Observable`, it is an `UnaryFunction`.
 More specifically an `UnaryFunction` which receives an `Observable` and returns an `Observable`.
 Typically, an input `Observable` is an output of another `UnaryFunction`, for example;
