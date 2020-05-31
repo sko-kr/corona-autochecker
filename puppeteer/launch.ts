@@ -13,7 +13,7 @@ const launchBrowser = ({ devMode }: { devMode?: boolean }) => from<Promise<Brows
 
 const openPage = ({ url }: { url: string }) => switchMap(async (browser: Browser) => {
   const page = await browser.newPage()
-  await page.goto(url, { waitUntil: 'networkidle2' });
+  await page.goto(url, { waitUntil: ['load', 'networkidle0'] });
   return { browser, page };
 })
 
