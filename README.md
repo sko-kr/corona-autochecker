@@ -136,7 +136,7 @@ export function pipe<T, A, B, C, D, E, F, G, H, I>(
   fn8: UnaryFunction<G, H>,
   fn9: UnaryFunction<H, I>,
   ...fns: UnaryFunction<any, any>[] // <- ??
-): UnaryFunction<T, {}>;
+): UnaryFunction<T, {}>; // <- Why you return type {} ?
 ```
 
 ## TODO:
