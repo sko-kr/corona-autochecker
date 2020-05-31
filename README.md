@@ -135,7 +135,7 @@ export function pipe<T, A, B, C, D, E, F, G, H, I>(
   fn7: UnaryFunction<F, G>,
   fn8: UnaryFunction<G, H>,
   fn9: UnaryFunction<H, I>,
-  ...fns: UnaryFunction<any, any>[] /** <- ??  */
+  ...fns: UnaryFunction<any, any>[] // <- ??
 ): UnaryFunction<T, {}>;
 ```
 
