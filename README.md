@@ -49,6 +49,77 @@ sudo apt-get install language-pack-ko
 sudo apt-get install korean*
 ```
 
+## TIL
+#### 1. A value returned from `pipe` standalone function can only be used as other `pipe`s' arguments.
+The return value of a `pipe` is not an `Observable`, it is an `UnaryFunction`.
+More specifically an `UnaryFunction` which receives an `Observable` and returns an `Observable`.
+Typically, an input `Observable` is an output of another `UnaryFunction`, for example;
+```js
+const customUnaryFunction = pipe( map(val => val + 2) );
+of(0).pipe(
+  map(val => val + 1),
+  customUnaryFunction
+)
+```
+`customUnaryFunction` receives a returned `Observable` from `map` (which is an `UnaryFunction`) as an argument, and 
+returns `Observable`.
+
+It's worth noting that `UnaryFunction` not being an `Observable` has implementation effects.
+
+For example, one could define a function that receives an argument and returns an `UnaryFunction`. This argument could be;
+1. a function,
+2. value (object, string, number, etc).
+
+When a `UnaryFunction` returning function receives a function as an argument, it is like defining `map`, `filter`, `switchMap`, etc.
+i.e. it works with a value that is streaming down the pipeline.
+```js
+const customOperator = (callback) => pipe( otherOperators, map(callback) )
+// Usage;
+of(0).pipe(
+  customOperator(val => val * 2)
+)
+```
+In above example we could get access to the flowing data by passing callback to operators.
+
+When a `UnaryFunction` returning function receives a non-function value as an argument, it is like defining `mapTo`, `switchMapTo`, etc.
+i.e. the value that is passed as an argument has to exist outside the stream pipeline.
+```js
+const customOperator = (val) => pipe( map((val) => val * 2), mapTo(val) )
+// Usage
+of(0).pipe(
+  customOperator(3)
+)
+```
+In above example, customOperator is not very flexible as we could not get access to inner pipe's value.
+
+On a side note, We don't really need to use `pipe` function to create a custom operator, we could simply call the builtin
+operator and return it. For example, [this](https://github.com/ko-toss/corona-autochecker/blob/594722e4ede7adce67263edb1c326dce6e5b902e/puppeteer/operators.ts#L27).
+However, we can work with only one built in an operator. (Sometimes that's all we need).
+
+Most of the time we work with an operator that receives a callback, eg) we work more with `map` than `mapTo`, hence
+when defining a function that returns an UnaryFunction, an argument should most likely be a function.
+Of course, sometimes what we want is value receiving operator similar to `mapTo`, for example, [this](https://github.com/ko-toss/corona-autochecker/blob/5dd53282cd18d0f61d7c24a4df94f31cc6b72b5d/puppeteer/steps.ts#L6).
+
+Also, it can be confusing at times what we are trying to create is not a custom operator but rather a callback that
+gets passed to an operator, for example callback passed to `switchMap`. 
+In this case the function should receive streaming value rather than Observable as an argument and return an observable or a value. For example;
+```js
+//  Receives a value anre returns an observable, 
+// can be passed to an operator working with higher order observable
+const customCallback = (val) => of(val).pipe( 
+  map(val => val * 2)
+)
+// Usage
+of(0).pipe(
+  switchMap(customCallback)
+)
+```
+
+We should make sure we know what we are making (customOperator or customCallback), before we make it. 
+To avoid mistakes like, [this](https://github.com/ko-toss/corona-autochecker/commit/5b45e477e7926378a4ad45bbd2574e0f61acf2fc#r39556182)
+
+Note UnaryFunction is one type of OperatorFunction, a function that is passed to `pipe` as an argument.
+
 ## TODO:
 1. Send Screenshot of a successful check.
 2. Docker
