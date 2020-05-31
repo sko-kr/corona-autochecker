@@ -17,4 +17,18 @@ const openPage = ({ url }: { url: string }) => switchMap(async (browser: Browser
   return { browser, page };
 })
 
-export const launchPage = ({ url, devMode }: Params) => launchBrowser({ devMode }).pipe(openPage({ url }))
+const reloadPageIfNoInput = switchMap(async ({ browser, page }) => {
+  let pageExists = await page.$('#pName');
+  let count = 0
+  while (!pageExists && count < 10) {
+    await page.reload({ waitUntil: ['load', 'networkidle0'] })
+    pageExists = await page.$('#pName')
+    ++count;
+  }
+  return { browser, page };
+})
+
+export const launchPage = ({ url, devMode }: Params) => launchBrowser({ devMode }).pipe(
+  openPage({ url }),
+  reloadPageIfNoInput
+)
