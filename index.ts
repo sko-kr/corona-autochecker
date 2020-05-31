@@ -28,7 +28,7 @@ timer(0, TEN_MINUTES).pipe(
     browser.close()
   }),
   retryWhen(error$ => {
-    return error$.pipe(delay(TEN_MINUTES * 3), take(100))
+    return error$.pipe(delay(TEN_MINUTES), take(100))
   })
 ).subscribe(() => {
   /**TODO: notify successful check*/
