@@ -22,7 +22,7 @@ timer(0, TEN_MINUTES).pipe(
     return from(users)
   }),
   filter(isNotAlreadyChecked),
-  mergeMap(user => of(1).pipe(coronaCheckEpic(user))),
+  mergeMap(user => of(1).pipe(coronaCheckEpic(user)), 10),
   tap(({ user }) => updateCheckedDate(db, user)),
   tap(({ browser, user }: { browser: Browser, user: User }) => {
     browser.close()
