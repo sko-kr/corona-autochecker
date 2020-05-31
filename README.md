@@ -120,6 +120,25 @@ To avoid mistakes like, [this](https://github.com/ko-toss/corona-autochecker/com
 
 Note UnaryFunction is one type of OperatorFunction, a function that is passed to `pipe` as an argument.
 
+### 2. type for pipe function breaks after 9 operations. :sob:
+[link](https://github.com/ReactiveX/rxjs/issues/4177#issuecomment-424328114)
+Reason;
+```ts
+// type for pipe function with more than 9 parameters.
+export function pipe<T, A, B, C, D, E, F, G, H, I>(
+  fn1: UnaryFunction<T, A>, 
+  fn2: UnaryFunction<A, B>,
+  fn3: UnaryFunction<B, C>,
+  fn4: UnaryFunction<C, D>,
+  fn5: UnaryFunction<D, E>,
+  fn6: UnaryFunction<E, F>,
+  fn7: UnaryFunction<F, G>,
+  fn8: UnaryFunction<G, H>,
+  fn9: UnaryFunction<H, I>,
+  ...fns: UnaryFunction<any, any>[]
+): UnaryFunction<T, {}>;
+```
+
 ## TODO:
 1. Send Screenshot of a successful check.
 2. Docker
