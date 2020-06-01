@@ -11,12 +11,12 @@ const launchBrowser = ({ devMode }: { devMode?: boolean }) => from<Promise<Brows
 
 const openPage = ({ url }: { url: string }) => switchMap(async (browser: Browser) => {
   /**TODO intercept listener to make sure button click event is bound*/
-  (HTMLButtonElement.prototype as any).realAddEventListener = HTMLButtonElement.prototype.addEventListener;
-  HTMLButtonElement.prototype.addEventListener = function(a: any,b: any,c: any){
-    //SHOOT CUSTOM EVENT which will be read by puppeteer;
-    // ...
-    (this as any).realAddEventListener(a,b,c);
-  };
+  // (HTMLButtonElement.prototype as any).realAddEventListener = HTMLButtonElement.prototype.addEventListener;
+  // HTMLButtonElement.prototype.addEventListener = function(a: any,b: any,c: any){
+  //   //SHOOT CUSTOM EVENT which will be read by puppeteer;
+  //   // ...
+  //   (this as any).realAddEventListener(a,b,c);
+  // };
   const page = await browser.newPage();
   await page.goto(url, { waitUntil: ['load', 'networkidle0'] });
   await wait(1000);
@@ -24,12 +24,13 @@ const openPage = ({ url }: { url: string }) => switchMap(async (browser: Browser
 })
 
 const reloadPageIfNoInput = switchMap(async ({ browser, page }) => {
-  let hasClickListener = false; /**TODO: */
+  // TODO: use existence of click event to decide whether page is loaded or not.
+  let pageExists = await page.$('#pName');
   let count = 0
-  while (!hasClickListener && count < 10) {
+  while (!pageExists && count < 10) {
     await page.reload({ waitUntil: ['load', 'networkidle0'] })
     await wait(1000);
-    hasClickListener = true /**TODO: */
+    pageExists = await page.$('#pName')
     ++count;
   }
   return { browser, page };
