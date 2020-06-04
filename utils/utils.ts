@@ -8,9 +8,8 @@ export function randomHumanDelay({ maxMs, minMs }: { maxMs: number; minMs: numbe
 export function isValidCheckTime() {
   const date = new Date();
   const hours = getHours(date);
-  const minutes = getMinutes(date);
   const day = getDay(date);
-  return !(day === 0 || day === 6 || hours >= 8 || hours < 7 || (hours === 7 && minutes < 20));
+  return !(day === 0 || day === 6 || hours >= 8 || hours < 1);
 }
 
 export function isNotAlreadyChecked(user: User) {
