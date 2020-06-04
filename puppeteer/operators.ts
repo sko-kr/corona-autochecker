@@ -26,7 +26,10 @@ export function click(selector: string) {
 export function clickComplete(selector: string, options = { navigationTimeout: 60000 }) {
   return switchMap(async ({ page, browser }: CommonBrowser) => {
     const nextPageLoaded = new Promise((resolve, reject) => {
-      const timeoutId = setTimeout(() => reject(), options.navigationTimeout)
+      const timeoutId = setTimeout(() => {
+        browser.close()
+        reject()
+      }, options.navigationTimeout)
       page.once('load', () => {
         clearTimeout(timeoutId);
         resolve()
