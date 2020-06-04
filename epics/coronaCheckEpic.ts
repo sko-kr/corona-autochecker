@@ -35,7 +35,7 @@ export function coronaCheckEpic(user: User) {
     ),
     pipe(
       tap(({ page }) => {
-        page.screenshot({ path: `${user.name}${new Date().getTime()}` })
+        page.screenshot({ path: `${user.name}${new Date().getTime()}.png` })
       }),
       delay(randomHumanDelay({ minMs: 3000, maxMs: 6000 })),
       map(({ browser, page }: { browser: Browser; page: Page }): { browser: Browser, page: Page, user: User } => ({
