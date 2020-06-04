@@ -13,7 +13,7 @@
 * Node.js 12를 설치해야합니다.
 * PM2를 설치해야합니다. `npm install -g pm2`.
 * OS time이 한국 시간이어야합니다. `sudo timedatectl set-timezone 'Asia/Seoul'`
-* 다니는 학교, 학생이름, 학생생년월일을 db.json에 설정해야 합니다. 예)
+* 다니는 학교, 학생이름, 학생생년월일을 `db.json`에 아래와 같은 format으로 저장해야 합니다;
 ```json
 {
   "users": [
