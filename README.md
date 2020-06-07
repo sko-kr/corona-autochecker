@@ -41,14 +41,10 @@
 ```
 
 ## 실행하기
-위 셋업후 `npm start`
+위 셋업후, 프로젝트 폴더 안에서;
+1. `npm install`
+2. `npm start`
 
-## Misc
-* setup korean in ubuntu 
-```bash
-sudo apt-get install language-pack-ko
-sudo apt-get install korean*
-```
 
 ## TIL
 ### 1. A value returned from `pipe` standalone function can only be used as other `pipe`s' arguments.
@@ -62,17 +58,18 @@ of(0).pipe(
   customUnaryFunction
 )
 ```
-`customUnaryFunction` receives a returned `Observable` from `map` (which is an `UnaryFunction`) as an argument, and 
-returns `Observable`.
+`customUnaryFunction` receives a returned `Observable` from an `UnaryFunction` returned from calling `map` operator as an argument, 
+then it returns an `Observable`.
 
-It's worth noting that `UnaryFunction` not being an `Observable` has implementation effects.
+It's worth noting that as a consequence of operators returning an `UnaryFunction` rather than an `Observable` has implementation effects.
 
-For example, one could define a function that receives an argument and returns an `UnaryFunction`. This argument could be;
-1. a function,
+For example, one could define a function that receives an argument and returns an `UnaryFunction`. Such a function is often called an operator.
+This argument could be;
+1. a function or,
 2. value (object, string, number, etc).
 
-When a `UnaryFunction` returning function receives a function as an argument, it is like defining `map`, `filter`, `switchMap`, etc.
-i.e. it works with a value that is streaming down the pipeline.
+When an `UnaryFunction` returning function (a.k.a operator) receives a function as an argument then it is like defining `map`, `filter`, `switchMap`, etc.
+i.e. it works with a value that is streaming down the pipeline. For example;
 ```js
 const customOperator = (callback) => pipe( otherOperators, map(callback) )
 // Usage;
@@ -80,22 +77,22 @@ of(0).pipe(
   customOperator(val => val * 2)
 )
 ```
-In above example we could get access to the flowing data by passing callback to operators.
+In above example, we could get access to the flowing data by passing a callback to a `customOperator`.
 
-When a `UnaryFunction` returning function receives a non-function value as an argument, it is like defining `mapTo`, `switchMapTo`, etc.
-i.e. the value that is passed as an argument has to exist outside the stream pipeline.
+When an operator receives a non-function value as an argument, it is like defining `mapTo`, `switchMapTo`, etc.
+i.e. the value that is passed to an operator as an argument is a simple value that has no access to the streaming data.
 ```js
-const customOperator = (val) => pipe( map((val) => val * 2), mapTo(val) )
+const customOperator = val => pipe( map((val) => val * 2), mapTo(val) )
 // Usage
 of(0).pipe(
   customOperator(3)
 )
 ```
-In above example, customOperator is not very flexible as we could not get access to inner pipe's value.
+In above example, `customOperator` is not very flexible as we could not get access to inner pipe's value (a.k.a streaming data).
 
 On a side note, We don't really need to use `pipe` function to create a custom operator, we could simply call the builtin
 operator and return it. For example, [this](https://github.com/ko-toss/corona-autochecker/blob/594722e4ede7adce67263edb1c326dce6e5b902e/puppeteer/operators.ts#L27).
-However, we can work with only one built in an operator. (Sometimes that's all we need).
+However, we can work with only one built in an operator, but sometimes that's all we need.
 
 Most of the time we work with an operator that receives a callback, eg) we work more with `map` than `mapTo`, hence
 when defining a function that returns an UnaryFunction, an argument should most likely be a function.
@@ -105,8 +102,8 @@ Also, it can be confusing at times what we are trying to create is not a custom 
 gets passed to an operator, for example callback passed to `switchMap`. 
 In this case the function should receive streaming value rather than Observable as an argument and return an observable or a value. For example;
 ```js
-//  Receives a value anre returns an observable, 
-// can be passed to an operator working with higher order observable
+//  Receives a value and returns an observable, 
+// can be passed to an operator working with higher order observable(in this case `switchMap`)
 const customCallback = (val) => of(val).pipe( 
   map(val => val * 2)
 )
@@ -116,14 +113,15 @@ of(0).pipe(
 )
 ```
 
-We should make sure we know what we are making (customOperator or customCallback), before we make it. 
-To avoid mistakes like, [this](https://github.com/ko-toss/corona-autochecker/commit/5b45e477e7926378a4ad45bbd2574e0f61acf2fc#r39556182)
+We should make sure we know what we are making (customOperator or customCallback), 
+before we make it, to avoid mistakes like [this](https://github.com/ko-toss/corona-autochecker/commit/5b45e477e7926378a4ad45bbd2574e0f61acf2fc#r39556182)
 
 Note UnaryFunction is one type of OperatorFunction, a function that is passed to `pipe` as an argument.
 
 ### 2. type for pipe function breaks after 9 operations. :sob:
-[link](https://github.com/ReactiveX/rxjs/issues/4177#issuecomment-424328114)
-Reason;
+Because type definition for `pipe` with more than 9 arguments are defined like below, type gets broken after 9 operations.
+Check [this reference](https://github.com/ReactiveX/rxjs/issues/4177#issuecomment-424328114) for detail.
+
 ```ts
 // type for pipe function with more than 9 parameters.
 export function pipe<T, A, B, C, D, E, F, G, H, I>(
