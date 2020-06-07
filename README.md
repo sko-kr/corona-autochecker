@@ -137,6 +137,42 @@ export function pipe<T, A, B, C, D, E, F, G, H, I>(
   ...fns: UnaryFunction<any, any>[] // <- ??
 ): UnaryFunction<T, {}>; // <- Why you return type {} ?
 ```
+There are 2 ways to get around this
+1. Define operator type signature;
+```ts
+function someOperator(): OperatorFunction<{browser: Browser, page: Page}, {browser: Browser, page: Page}>
+function someOperator() {
+    return pipe(
+        operator1(),
+        operator2(),
+        /*...*/
+        operator10(),
+    )
+}
+```
+2. Group operators into inner pipes so that each pipe does not contain more than 9 operations;
+```ts
+function someOperator() {
+    return pipe(
+        pipe(
+            operator1(),
+            operator2(),
+            operator3(),
+        ),
+        pipe(
+            operator4(),
+            operator5(),
+        ),
+        pipe(
+            operator7(),
+            operator8(),
+            {/*...*/}
+            operator10(),
+        )
+    )
+}
+```
+For scalability reasons first option is better than second option.
 
 ## TODO:
 1. Send Screenshot of a successful check.
