@@ -7,16 +7,19 @@ interface Params {
   devMode?: boolean;
 }
 
-const launchBrowser = ({ devMode }: { devMode?: boolean }) => from<Promise<Browser>>(puppeteer.launch({ headless: !devMode }))
+const launchBrowser = ({ devMode }: { devMode?: boolean }) => from<Promise<Browser>>(puppeteer.launch({
+  headless: !devMode,
+  args: ['--no-sandbox']
+}))
 
 const openPage = ({ url }: { url: string }) => switchMap(async (browser: Browser) => {
   /**TODO intercept listener to make sure button click event is bound*/
-  // (HTMLButtonElement.prototype as any).realAddEventListener = HTMLButtonElement.prototype.addEventListener;
-  // HTMLButtonElement.prototype.addEventListener = function(a: any,b: any,c: any){
-  //   //SHOOT CUSTOM EVENT which will be read by puppeteer;
-  //   // ...
-  //   (this as any).realAddEventListener(a,b,c);
-  // };
+    // (HTMLButtonElement.prototype as any).realAddEventListener = HTMLButtonElement.prototype.addEventListener;
+    // HTMLButtonElement.prototype.addEventListener = function(a: any,b: any,c: any){
+    //   //SHOOT CUSTOM EVENT which will be read by puppeteer;
+    //   // ...
+    //   (this as any).realAddEventListener(a,b,c);
+    // };
   const page = await browser.newPage();
   await page.goto(url, { waitUntil: ['load', 'networkidle0'] });
   await wait(1000);
