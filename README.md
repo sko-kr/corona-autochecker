@@ -45,6 +45,30 @@
 1. `npm install`
 2. `npm start`
 
+## Misc setting local
+```shell
+# Set time and language
+sudo timedatectl set-timezone 'Asia/Seoul'
+sudo apt-get install language-pack-ko
+sudo locale-gen ko_KR.UTF-8
+export LANGUAGE=en_US.UTF-8
+export LANG=ko_KR.UTF-8
+export LC_ALL=en_US.UTF-8
+sudo dpkg-reconfigure locales
+sudo update-locale LANG=ko_KR.UTF-8 LC_MESSAGES=POSIX
+
+# Headless chrome kr font
+sudo apt-get install fonts-noto-cjk
+
+# Install node
+sudo apt-get install build-essential
+curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh
+sudo bash nodesource_setup.sh
+sudo apt-get install nodejs
+
+# Install pm2
+sudo npm install -g pm2
+```
 
 ## TIL
 ### 1. A value returned from `pipe` standalone function can only be used as other `pipe`s' arguments.

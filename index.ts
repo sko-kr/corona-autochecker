@@ -22,8 +22,9 @@ timer(0, TEN_MINUTES).pipe(
   tap(({ user }) => updateCheckedDate(db, user)),
   tap(({ browser }) => browser.close()),
   retryWhen(error$ => error$.pipe(delay(TEN_MINUTES), take(100)))
-).subscribe(() => {
+).subscribe(({user}) => {
   /**TODO: notify successful check*/
+  console.log('success', user?.name)
 }, () => {
   /**TODO: notify failed check*/
   throw Error(`Let PM2 restart`)
