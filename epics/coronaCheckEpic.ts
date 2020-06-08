@@ -18,7 +18,10 @@ import { Browser, Page } from 'puppeteer';
 import { randomHumanDelay } from '../utils/utils';
 
 export function coronaCheckEpic(user: User) {
-  return launchPage({ url: 'https://eduro.sen.go.kr/stv_cvd_co00_002.do', devMode: process.env.NODE_ENV === 'development' }).pipe(
+  return launchPage({
+    url: 'https://eduro.sen.go.kr/stv_cvd_co00_002.do',
+    devMode: process.env.NODE_ENV === 'development',
+  }).pipe(
     pipe(
       inputSchoolName(user.schoolName),
       inputPupilName(user.name),
