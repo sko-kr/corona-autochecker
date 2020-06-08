@@ -21,8 +21,14 @@ timer(0, TEN_MINUTES).pipe(
   mergeMap(coronaCheckEpic, 10),
   tap(({ user }) => updateCheckedDate(db, user)),
   tap(({ browser }) => browser.close()),
-  retryWhen(error$ => error$.pipe(delay(TEN_MINUTES), take(100)))
-).subscribe(({user}) => {
+  retryWhen(error$ => {
+    return error$.pipe(
+      tap(err => console.log(err)),
+      delay(TEN_MINUTES),
+      take(100)
+    )
+  })
+).subscribe(({ user }) => {
   /**TODO: notify successful check*/
   console.log('success', user?.name)
 }, () => {
