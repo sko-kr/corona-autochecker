@@ -62,7 +62,7 @@ sudo apt-get install fonts-noto-cjk
 
 # Install node
 sudo apt-get install build-essential
-curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh
+curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh
 sudo bash nodesource_setup.sh
 sudo apt-get install nodejs
 
