@@ -60,6 +60,10 @@ sudo update-locale LANG=ko_KR.UTF-8 LC_MESSAGES=POSIX
 # Headless chrome kr font
 sudo apt-get install fonts-noto-cjk
 
+# Install puppeteer dependencies
+sudo apt-get install libpangocairo-1.0-0 libx11-xcb1 libxcomposite1 libxcursor1 libxdamage1 libxi6 libxtst6 libnss3 
+libcups2 libxss1 libxrandr2 libgconf2-4 libasound2 libatk1.0-0 libgtk-3-0
+
 # Install node
 sudo apt-get install build-essential
 curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh
