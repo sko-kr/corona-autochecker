@@ -43,17 +43,19 @@
 ## 실행하기
 위 셋업후, 프로젝트 폴더 안에서;
 1. `npm install`
-2. `npm start`
+2. `pm2 start npm -- start`
 
 ## Misc setting local
 ```shell
+# .bashrc
+export LANGUAGE=en_US.UTF-8
+export LANG=ko_KR.UTF-8
+export LC_ALL=en_US.UTF-8
+
 # Set time and language
 sudo timedatectl set-timezone 'Asia/Seoul'
 sudo apt-get install language-pack-ko
 sudo locale-gen ko_KR.UTF-8
-export LANGUAGE=en_US.UTF-8
-export LANG=ko_KR.UTF-8
-export LC_ALL=en_US.UTF-8
 sudo dpkg-reconfigure locales
 sudo update-locale LANG=ko_KR.UTF-8 LC_MESSAGES=POSIX
 

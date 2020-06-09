@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "ts-node test",
-    "test:pm2": "pm2 start ts-node -- -P tsconfig.json ./test.ts",
-    "start": "pm2 start ts-node -- -P tsconfig.json ./index.ts",
+    "test:pm2": "ts-node -P tsconfig.json ./test.ts",
+    "start": "ts-node -P tsconfig.json ./index.ts",
     "dev": "ts-node index"
   },
   "author": "Seunghoon Ko",
